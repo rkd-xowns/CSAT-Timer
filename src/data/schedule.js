@@ -53,18 +53,18 @@ export const SCHEDULE_DATA = {
     collect1: { name: "한국사 문제지 회수", duration: 5 * 60, isExam: false, type: 'admin', startTime: "15:20:00" },
 
     // ## 1. 탐구 예비령/준비령 추가 ##
-//     inquiry1_preliminary: { name: "탐구 예비령", duration: 5 * 60, isExam: false, type: 'bell', startTime: "15:25:00" },
-//     inquiry1_prepare: { name: "탐구 준비령", duration: 5 * 60, isExam: false, type: 'prepare', startTime: "15:30:00" }, // 준비령은 본령과 동시에 시작
-//     inquiry1: { name: "4교시 탐구 (첫번째)", duration: 30 * 60, isExam: true, type: 'exam', startTime: "15:35:00" },
-//     collect2: { name: "탐구 문제지 회수/배부", duration: 2 * 60, isExam: false, type: 'admin', startTime: "16:05:00" },
-//     inquiry2: { name: "4교시 탐구 (두번째)", duration: 30 * 60, isExam: true, type: 'exam', startTime: "16:07:00" },
+    inquiry1_preliminary: { name: "탐구 예비령", duration: 5 * 60, isExam: false, type: 'bell', startTime: "15:25:00" },
+    inquiry1_prepare: { name: "탐구 준비령", duration: 5 * 60, isExam: false, type: 'prepare', startTime: "15:30:00" }, // 준비령은 본령과 동시에 시작
+    inquiry1: { name: "4교시 탐구 (첫번째)", duration: 30 * 60, isExam: true, type: 'exam', startTime: "15:35:00" },
+    collect2: { name: "탐구 문제지 회수/배부", duration: 2 * 60, isExam: false, type: 'admin', startTime: "16:05:00" },
+    inquiry2: { name: "4교시 탐구 (두번째)", duration: 30 * 60, isExam: true, type: 'exam', startTime: "16:07:00" },
 
 
-    inquiry1_preliminary: { name: "탐구 예비령", duration: 60, isExam: false, type: 'bell', startTime: "12:32:00" },
-    inquiry1_prepare: { name: "탐구 준비령", duration: 60, isExam: false, type: 'prepare', startTime: "12:33:00" },
-    inquiry1: { name: "4교시 탐구1", duration: 60, isExam: true, type: 'exam', startTime: "12:34:00" },
-    collect2: { name: "탐구1 시험지 회수", duration: 60, isExam: false, type: 'admin', startTime: "12:35:00" },
-    inquiry2: { name: "4교시 탐구2", duration: 60, isExam: true, type: 'exam', startTime: "12:36:00" },
+    // inquiry1_preliminary: { name: "탐구 예비령", duration: 60, isExam: false, type: 'bell', startTime: "12:32:00" },
+    // inquiry1_prepare: { name: "탐구 준비령", duration: 60, isExam: false, type: 'prepare', startTime: "12:33:00" },
+    // inquiry1: { name: "4교시 탐구1", duration: 60, isExam: true, type: 'exam', startTime: "12:34:00" },
+    // collect2: { name: "탐구1 시험지 회수", duration: 60, isExam: false, type: 'admin', startTime: "12:35:00" },
+    // inquiry2: { name: "4교시 탐구2", duration: 60, isExam: true, type: 'exam', startTime: "12:36:00" },
 
 };
 

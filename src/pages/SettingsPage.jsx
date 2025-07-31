@@ -108,10 +108,14 @@ const SettingsPage = ({ onStart }) => {
           </div>
         )}
         
-        <div className="button-group" style={{marginTop: '2rem'}}>
-          <Link to="/menu" className="neumorphic-button">뒤로가기</Link>
-          <button onClick={handleStartClick} className="neumorphic-button">시뮬레이션 시작</button>
-        </div>
+<div className="setting-group">
+         <div className="button-group">
+            <Link to="/menu" className="neumorphic-button">
+              뒤로가기
+            </Link>
+            <button onClick={handleStartClick} className="neumorphic-button">시뮬레이션 시작</button>
+          </div>
+       </div>
       </div>
     </div>
   );
