@@ -108,7 +108,7 @@ function App() {
   // --- 타이머 로직 ---
   useEffect(() => {
     // 예시: 2025년 8월 1일 오전 3시 30분에 이벤트 시작
-    const eventTime = new Date('2025-08-01T08:38:00');
+    const eventTime = new Date('2025-08-01T09:49:00');
     const now = new Date();
     
     const timeToEvent = eventTime.getTime() - now.getTime();
@@ -160,8 +160,8 @@ function App() {
   };
 
   // 표시할 문구 설정 (여러 줄 예시)
-  const intro = ["수능 대박 기원!", "마지막 모고시합 만점 기원!"];
-  const outro = ["다옭국어 화이팅!", "태준: 곧시작해연~"];
+  const intro = ["수능 대박 기원!", "마지막 모고시합 다들 수고하셨습니다!"];
+  const outro = ["다옭국어 화이팅!", "태준: 곧 끝나유~"];
 
   return (
     <>
