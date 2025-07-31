@@ -251,62 +251,134 @@ html[data-theme='dark'] .welcome-page-container {
 /* =================================================================
    4. MenuPage.jsx
    ================================================================= */
-.main-page-container { width: 100%; max-width: 960px; text-align: center; padding: 2rem 1rem; box-sizing: border-box; position: relative; }
-.hero-section { margin-bottom: 3rem; }
-.hero-title { font-size: 2.5rem; font-weight: 800; margin: 0; letter-spacing: 2px; }
-.hero-subtitle { font-size: 1rem; color: var(--color-text-secondary); margin: 0.5rem 0 1rem 0; }
-.d-day-display { font-size: 4rem; font-weight: bold; color: var(--color-accent-red); }
-.feature-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
-@media (min-width: 768px) { .feature-grid { grid-template-columns: 1fr 1fr; } .hero-title { font-size: 3rem; } }
+
+/* --- 1. 기본 스타일 (모바일 우선, Fluid UI) --- */
+.main-page-container {
+  width: 100%;
+  max-width: 960px;
+  text-align: center;
+  padding: clamp(1rem, 4vh, 2rem) 1rem; /* 모바일용 수직 여백 */
+  box-sizing: border-box;
+}
+
+.hero-section {
+  margin-bottom: clamp(1rem, 3vh, 3rem); /* 모바일용 수직 간격 */
+  padding-top: 0;
+}
+
+.hero-title {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 2px;
+}
+.hero-subtitle {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: var(--color-text-secondary);
+  margin: 0.5rem 0 1rem 0;
+}
+.d-day-display {
+  font-size: clamp(2rem, 12vw, 4rem);
+  font-weight: bold;
+  color: var(--color-accent-red);
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.8rem, 2vh, 1.5rem);
+}
 
 .menu-button {
-  background: var(--color-card-bg); border-radius: 12px; border: 1px solid var(--color-border);
+  background: var(--color-card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
   box-shadow: 4px 4px 8px var(--btn-neumorphic-shadow-1), -4px -4px 8px var(--btn-neumorphic-shadow-2);
-  cursor: pointer; padding: 0; outline: none; transition: all 0.2s ease-in-out; user-select: none; text-decoration: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  text-decoration: none;
 }
 .menu-button:hover { transform: translateY(1px); box-shadow: inset 2px 2px 5px var(--btn-neumorphic-shadow-1), inset -2px -2px 5px var(--btn-neumorphic-shadow-2); }
 .menu-button:active { transform: translateY(1px); box-shadow: inset 4px 4px 8px var(--btn-neumorphic-shadow-1), inset -4px -4px 8px var(--btn-neumorphic-shadow-2); }
-.menu-button .button-outer, .menu-button .button-inner { border-radius: inherit; }
-.menu-button .button-inner { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.menu-button .text { font-weight: 700; text-align: center; color: var(--color-accent-gold); }
-.menu-button .card-icon { font-size: 2.5rem; color: var(--color-text-primary); }
-.menu-button .card-title { margin: 0; font-size: 1.2rem; }
-.menu-button .card-description { font-size: 0.9rem; color: var(--color-card-description); margin: 0; font-weight: normal; }
 
-@media (max-width: 767px) {
+.menu-button .button-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.8vh 1.5rem; /* 모바일용 버튼 내부 여백 */
+  border-radius: inherit;
+}
 
-  /* D-Day 폰트 크기 줄이기 (가장 큰 영향) */
-  .d-day-display {
-    font-size: 2.5rem;
+/* 1. 아이콘 크기 조절 */
+.card-icon {
+  width: clamp(38px, 10vw, 48px); /* 최소/최대 크기 상향 조정 */
+  height: clamp(38px, 10vw, 48px);
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+.menu-button .text {
+  font-weight: 700;
+  text-align: center;
+}
+
+/* 2. 글자 색 조절 */
+.card-title {
+  font-size: clamp(1.1rem, 4vw, 1.3rem);
+  color: var(--color-accent-gold); /* 제목은 황금색 */
+  margin: 0;
+}
+.card-description {
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  color: var(--color-text-secondary); /* 설명은 회색 */
+  margin: 0;
+  font-weight: normal;
+  line-height: 1.3;
+}
+.card-icon {
+  /* font-size로 이모지의 크기를 조절합니다. */
+  font-size: clamp(2rem, 8vw, 2.5rem);
+  
+  /* 세로 중앙 정렬을 위한 line-height */
+  line-height: 1;
+
+  flex-shrink: 0;
+}
+
+/* --- 3. 넓은 화면 최적화 (768px 이상) --- */
+@media (min-width: 768px) {
+  /* 화면이 넓어지면 여유 공간을 더 확보합니다. */
+  .main-page-container {
+    padding: 2rem 1rem;
   }
-
-  /* D-Day 섹션의 아래쪽 여백 줄이기 */
   .hero-section {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
-  
-  /* 카드 버튼 그리드의 간격 줄이기 */
   .feature-grid {
-    gap: 1.4rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
   }
-
-  /* 카드 버튼 내부의 상하 여백 줄이기 */
   .menu-button .button-inner {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding: 1.5rem;
   }
-  
-  /* 카드 버튼 내부 아이콘 크기 줄이기 */
-  .menu-button .card-icon {
-    font-size: 2rem;
+}
+@media (max-height: 700px) {
+  .main-page-container {
+    padding-top: 1vh;
+    padding-bottom: 2vh;
   }
-
-  /* 카드 버튼 내부 제목/설명 폰트 크기 줄이기 */
-  .menu-button .card-title {
-    font-size: 1.1rem;
+  .hero-section {
+    margin-bottom: 1.5vh;
   }
-  .menu-button .card-description {
-    font-size: 0.85rem;
+  .feature-grid {
+    gap: 2vh;
+  }
+  .menu-button .button-inner {
+    padding: 1.5vh 1.5rem;
   }
 }
 
@@ -344,7 +416,7 @@ html[data-theme='dark'] .welcome-page-container {
 
 
 .subject-grid {
-  display: grid; grid-auto-flow: grid; grid-template-columns: repeat(auto-fill, minmax(120px, auto));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, auto));
   gap: 10px; overflow-x: auto; padding-bottom: 10px;
 }
 /* 기본 상태 */
