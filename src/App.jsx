@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // ## 1. useLocation을 import 목록에 추가 ##
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
@@ -23,6 +23,46 @@ function App() {
   const navigate = useNavigate();
   // ## 2. useLocation 훅을 호출하여 현재 위치 정보를 가져옴 ##
   const location = useLocation();
+
+  useEffect(() => {
+    // 사용자 기기가 아이패드인지, 아니면 스마트폰인지 구분합니다.
+    const userAgent = navigator.userAgent;
+    const isTablet = /iPad/i.test(userAgent);
+    const isPhone = /iPhone|iPod|Android/i.test(userAgent) && !isTablet;
+
+    const lockOrientation = async (orientation) => {
+      try {
+        await screen.orientation.lock(orientation);
+      } catch (err) {
+        // 사용자가 허용하지 않는 등 오류는 무시합니다.
+      }
+    };
+
+    const unlockOrientation = () => {
+      try {
+        screen.orientation.unlock();
+      } catch (err) {
+        // 오류는 무시합니다.
+      }
+    };
+
+    // 아이패드일 경우, 항상 고정을 해제합니다.
+    if (isTablet) {
+      unlockOrientation();
+    } 
+    // 스마트폰일 경우, 경로에 따라 고정 여부를 결정합니다.
+    else if (isPhone) {
+      if (location.pathname === '/test') {
+        unlockOrientation(); // TestPage에서는 고정 해제
+      } else {
+        lockOrientation('portrait-primary'); // 나머지 페이지는 세로로 고정
+      }
+    }
+
+    return () => unlockOrientation();
+
+  }, [location.pathname]); // 경로가 변경될 때마다 이 로직을 다시 실행합니다.
+
 
   const handleStart = (newSettings) => {
     setSettings(newSettings);
