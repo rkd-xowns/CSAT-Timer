@@ -9,8 +9,11 @@ export default defineConfig({
     VitePWA({
       // 서비스 워커가 새로운 콘텐츠를 찾았을 때 자동으로 업데이트하도록 설정
       registerType: 'autoUpdate',
+
+      includeAssets: ['/icons/*.png'],
       
       // 오프라인에서 동작할 수 있도록 캐싱할 파일들을 지정
+      
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,mp3}']
       },
