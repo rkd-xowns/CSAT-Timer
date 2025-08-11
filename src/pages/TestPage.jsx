@@ -48,7 +48,7 @@ const findNextUpcomingBlockIndex = (queue) => {
 };
 
 // --- 푸시 알림 관련 헬퍼 함수 (이 부분이 누락되었습니다) ---
-const API_URL = 'http://localhost:4000'; // 로컬 백엔드 서버 주소 (모바일 테스트 시 ngrok 주소로 변경 필요)
+const API_URL = 'https://19c9c9cc2f64.ngrok-free.app'; // 로컬 백엔드 서버 주소 (모바일 테스트 시 ngrok 주소로 변경 필요)
 
 const urlBase64ToUint8Array = (base64String) => {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
