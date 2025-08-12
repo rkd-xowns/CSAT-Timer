@@ -3,7 +3,7 @@ import webpush from 'web-push';
 
 webpush.setVapidDetails(
   'mailto:your-email@example.com',
-  process.env.VAPID_PUBLIC_KEY, // Vercel 환경 변수 사용
+  process.env.VITE_VAPID_PUBLIC_KEY, // Vercel 환경 변수 사용
   process.env.VAPID_PRIVATE_KEY // Vercel 환경 변수 사용
 );
 
