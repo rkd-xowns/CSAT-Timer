@@ -515,7 +515,7 @@ const TestPage = ({ settings, onFinish }) => {
             setSubscriptionStatus('3. 서비스 워커 등록 성공!');
 
             setSubscriptionStatus('4. VAPID 공개 키 가져오기 시도...');
-            const res = await fetch(`${API_URL}/api/vapid-public-key`);
+            const res = await fetch('/api/vapid-public-key');
             if (!res.ok) {
                 throw new Error(`VAPID 키 서버 응답 실패: ${res.status}`);
             }
@@ -533,11 +533,11 @@ const TestPage = ({ settings, onFinish }) => {
             console.log("구독 성공!", subscription);
 
             // 구독 정보를 백엔드에 저장
-             await fetch(`${API_URL}/api/subscribe`, {
-                method: 'POST',
-                body: JSON.stringify(subscription),
-                headers: { 'Content-Type': 'application/json' },
-            });
+             await fetch('/api/subscribe', {
+    method: 'POST',
+    body: JSON.stringify(subscription),
+    headers: { "Content-Type": "application/json" },
+});
 
         } catch (error) {
             console.error("구독 실패 지점:", error);
