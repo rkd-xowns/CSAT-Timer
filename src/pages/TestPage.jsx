@@ -485,7 +485,7 @@ import React, { useMemo, useState } from 'react';
 import { buildTestQueue } from '../data/schedule.js';
 
 // --- API 서버 주소 ---
-const API_URL = 'https://7a6f1fa2bccc.ngrok-free.app'; // ⚠️ 반드시 현재 ngrok 주소로 변경해주세요.
+const API_URL = 'https://c23be435868e.ngrok-free.app'; // ⚠️ 반드시 현재 ngrok 주소로 변경해주세요.
 
 // --- 헬퍼 함수 ---
 const urlBase64ToUint8Array = (base64String) => {

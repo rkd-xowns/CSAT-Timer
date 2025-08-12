@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 
 // ⚠️ 여기에 생성한 VAPID 키를 붙여넣으세요.
 const vapidKeys = {
-    publicKey: "BJ_RSN03OCnqsOYGFuWewu-kE3x_9G7ha6NaFSDphTJwoUIcqEiQ_vvguM8jT2oUIOXhEqm93ssNMrm2M7hsTbk",
-    privateKey: "37dz3OYeU4HBWAENJLRIYmoXaptZgsXl1vGzGOWovpg",
+    publicKey: "BFGczs7YfAA7enHFNHv1pzzaIUMDFlHDkyM-8N1PVnPG9ecWF7KYmzCQ1OeZZ-eamYiw4J7RCp0a-nhiEaJz6jg",
+    privateKey: "roCr6L9Uu3Sg4YwemsBBAidxDLqqmkOKXOxt0K30k38",
 };
 
 webpush.setVapidDetails(
