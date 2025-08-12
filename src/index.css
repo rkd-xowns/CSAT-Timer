@@ -123,7 +123,6 @@ a.neumorphic-button,
 
 /* 일반 버튼 디자인 */
 button {
-  background-color: var(--color-button-primary-bg);
   color: var(--text-on-accent);
 }
 /* button:hover {
@@ -133,7 +132,6 @@ button {
 /* 토글 버튼 디자인 */
 .subject-toggle-button,
 .mode-button {
-  background-color: var(--color-card-bg);
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
 }

@@ -397,12 +397,22 @@ const TestPage = ({ settings, onFinish }) => {
 
     if (simState === 'PREPARING' || simState === 'WAITING') {
         if (simState === 'PREPARING' && settings.startMode === 'immediate') {
-            return (
-                <div className="page-container" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', height: '100%'}}>
-                    <SimulationLoader isStartEnabled={isStartEnabled} onStart={() => startBlock(testQueue[0])} />
-                </div>
-            );
-        }
+    return (
+        <div className="page-container" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', height: '100%', flexDirection: 'column'}}>
+            <SimulationLoader isStartEnabled={isStartEnabled} onStart={() => startBlock(testQueue[0])} />
+
+            {/* ✨ 이 부분이 추가되었습니다. */}
+            <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+                {!pushSubscription && (
+                    <button onClick={handleSubscribeToPush} disabled={isSubscribing} className="neumorphic-button">
+                        {isSubscribing ? '처리 중...' : '시험 시간 알림 켜기'}
+                    </button>
+                )}
+                {pushSubscription && <p style={{ color: 'green' }}>✅ 알림이 활성화되었습니다.</p>}
+            </div>
+        </div>
+    );
+}
         return (
             <div className="page-container" style={{justifyContent: 'center', alignItems: 'center', display: 'flex', height: '100%', flexDirection: 'column'}}>
                 <div className="loader-page-container">
@@ -423,7 +433,7 @@ const TestPage = ({ settings, onFinish }) => {
                         {isSubscribing ? '처리 중...' : '시험 시간 알림 켜기'}
                     </button>
                 )}
-                {pushSubscription && <p style={{marginTop: '1rem', color: 'green'}}>✅ 알림이 활성화되었습니다.</p>}
+                {pushSubscription && <p style={{marginTop: '1rem', color: 'green'}}>✅ 알림이 활성화되었습니다.</p>}ㅅ
                 
                 <button onClick={handleAbort} className="neumorphic-button" style={{marginTop: '1rem'}}>중단하기</button>
             </div>
