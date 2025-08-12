@@ -53,6 +53,11 @@ const startServer = () => {
                 res.sendStatus(500);
             });
     });
+    
+    app.get('/api/test', (req, res) => {
+    console.log('✅ /api/test 엔드포인트에 GET 요청이 성공적으로 도착했습니다.');
+    res.status(200).send('ngrok connection is working correctly!');
+});
 
     const PORT = 4000;
     app.listen(PORT, () => {
