@@ -5,7 +5,7 @@ self.addEventListener('push', e => {
 
     const options = {
         body: body,
-        icon: '/icons/192x192.png', // PWA 아이콘 경로
+        icon: '/icons/192.png', // PWA 아이콘 경로
         vibrate: [200, 100, 200],
     };
 
