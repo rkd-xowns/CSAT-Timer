@@ -204,6 +204,7 @@
 // }
 
 // export default AppWrapper;import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { EventProvider, useEvent } from './context/EventContext.jsx';
 import FireworksEvent from './components/FireworksEvent.jsx';
@@ -226,7 +227,6 @@ const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
 // VAPID 키를 변환하는 헬퍼 함수
 function urlBase64ToUint8Array(base64String) {
-  // ## 안전장치 추가: base64String이 유효하지 않으면 빈 배열 반환 ##
   if (!base64String) {
     console.error("urlBase64ToUint8Array: base64String is invalid.");
     return new Uint8Array(0);
@@ -248,78 +248,71 @@ function App() {
   const [settings, setSettings] = useState(null);
   const [lapData, setLapData] = useState({});
   const [testStatus, setTestStatus] = useState('completed');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [isRegistering, setIsRegistering] = useState(true);
+  const [pushSupport, setPushSupport] = useState(false);
+  const [userConsent, setUserConsent] = useState(Notification.permission);
 
   const navigate = useNavigate();
   const location = useLocation();
   
-  // 푸시 알림 구독을 위한 useEffect
+  // 컴포넌트 마운트 시 푸시 지원 여부만 확인
   useEffect(() => {
-    const setupPushSubscription = async () => {
-      // ## 안전장치 추가: VAPID 키가 있는지 먼저 확인 ##
-      if (!VAPID_PUBLIC_KEY) {
-        console.error("Vercel 환경 변수에 VITE_VAPID_PUBLIC_KEY가 설정되지 않았습니다. 푸시 알림을 초기화할 수 없습니다.");
-        setIsRegistering(false);
-        return;
-      }
-
-      if ('serviceWorker' in navigator && 'PushManager' in window) {
-        try {
-          const swRegistration = await navigator.serviceWorker.ready;
-          let subscription = await swRegistration.pushManager.getSubscription();
-
-          if (subscription === null) {
-            console.log('푸시 구독 정보가 없어 새로 생성합니다.');
-            const permission = await Notification.requestPermission();
-            if (permission === 'granted') {
-              subscription = await swRegistration.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-              });
-              console.log('새로운 푸시 구독 정보:', subscription);
-              setIsSubscribed(true);
-            } else {
-               console.log('알림 권한이 거부되었습니다.');
-               setIsSubscribed(false);
-            }
-          } else {
-            console.log('기존 푸시 구독 정보가 있습니다.');
-            setIsSubscribed(true);
-          }
-        } catch (error) {
-          console.error('푸시 구독 설정 중 오류 발생:', error);
-          setIsSubscribed(false);
-        } finally {
-          setIsRegistering(false);
-        }
-      } else {
-        setIsRegistering(false);
-      }
-    };
-    setupPushSubscription();
+    if ('serviceWorker' in navigator && 'PushManager' in window) {
+      setPushSupport(true);
+    }
   }, []);
 
-  // 테스트 알림 발송 함수
+  // 테스트 알림 발송 및 권한 요청 함수
   const handleSendTestNotification = async () => {
-    const swRegistration = await navigator.serviceWorker.ready;
-    const subscription = await swRegistration.pushManager.getSubscription();
-
-    if (!subscription) {
-      alert('알림 구독 정보가 없습니다. 페이지를 새로고침하거나 알림 권한을 허용해주세요.');
+    if (!pushSupport) {
+      alert('이 브라우저는 푸시 알림을 지원하지 않습니다.');
       return;
     }
 
-    try {
-      await fetch('/api/send-notification', {
-        method: 'POST',
-        body: JSON.stringify(subscription),
-        headers: { 'Content-Type': 'application/json' },
-      });
-      alert('테스트 알림을 성공적으로 요청했습니다! 잠시 후 알림을 확인하세요.');
-    } catch (error) {
-      console.error('테스트 알림 요청 실패:', error);
-      alert('알림 요청에 실패했습니다.');
+    let currentPermission = Notification.permission;
+
+    // 1. 권한이 아직 결정되지 않았다면, 사용자에게 요청 (User Gesture!)
+    if (currentPermission === 'default') {
+      currentPermission = await Notification.requestPermission();
+      setUserConsent(currentPermission); // 상태 업데이트
+    }
+
+    // 2. 사용자가 권한을 거부했다면, 안내 메시지 표시
+    if (currentPermission === 'denied') {
+      alert('알림 권한이 차단되었습니다. 브라우저 설정에서 권한을 허용해주세요.');
+      return;
+    }
+
+    // 3. 사용자가 권한을 허용했다면, 구독 및 알림 발송
+    if (currentPermission === 'granted') {
+      try {
+        const swRegistration = await navigator.serviceWorker.ready;
+        let subscription = await swRegistration.pushManager.getSubscription();
+
+        // 구독 정보가 없다면 새로 생성
+        if (subscription === null) {
+          if (!VAPID_PUBLIC_KEY) {
+            console.error("Vercel 환경 변수에 VITE_VAPID_PUBLIC_KEY가 설정되지 않았습니다.");
+            alert("푸시 알림 설정에 문제가 있습니다. (관리자에게 문의)");
+            return;
+          }
+          subscription = await swRegistration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+          });
+        }
+        
+        // 서버로 구독 정보 보내서 알림 발송 요청
+        await fetch('/api/send-notification', {
+          method: 'POST',
+          body: JSON.stringify(subscription),
+          headers: { 'Content-Type': 'application/json' },
+        });
+        alert('테스트 알림을 성공적으로 요청했습니다! 잠시 후 알림을 확인하세요.');
+
+      } catch (error) {
+        console.error('푸시 알림 처리 중 오류 발생:', error);
+        alert('알림 처리 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -342,8 +335,8 @@ function App() {
         <GlobalControls />
         {/* 테스트 알림 버튼 추가 */}
         <div style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }}>
-          <button onClick={handleSendTestNotification} disabled={isRegistering || !isSubscribed}>
-            {isRegistering ? '구독 확인 중...' : isSubscribed ? '테스트 알림 보내기' : '알림 비활성'}
+          <button onClick={handleSendTestNotification} disabled={!pushSupport || userConsent === 'denied'}>
+            {userConsent === 'denied' ? '알림 차단됨' : '테스트 알림 보내기'}
           </button>
         </div>
         <Routes>
