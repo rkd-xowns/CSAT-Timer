@@ -203,8 +203,7 @@
 //   );
 // }
 
-// export default AppWrapper;
-import React, { useState, useEffect } from 'react';
+// export default AppWrapper;import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { EventProvider, useEvent } from './context/EventContext.jsx';
 import FireworksEvent from './components/FireworksEvent.jsx';
@@ -227,6 +226,11 @@ const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY;
 
 // VAPID 키를 변환하는 헬퍼 함수
 function urlBase64ToUint8Array(base64String) {
+  // ## 안전장치 추가: base64String이 유효하지 않으면 빈 배열 반환 ##
+  if (!base64String) {
+    console.error("urlBase64ToUint8Array: base64String is invalid.");
+    return new Uint8Array(0);
+  }
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
   const rawData = window.atob(base64);
@@ -253,6 +257,13 @@ function App() {
   // 푸시 알림 구독을 위한 useEffect
   useEffect(() => {
     const setupPushSubscription = async () => {
+      // ## 안전장치 추가: VAPID 키가 있는지 먼저 확인 ##
+      if (!VAPID_PUBLIC_KEY) {
+        console.error("Vercel 환경 변수에 VITE_VAPID_PUBLIC_KEY가 설정되지 않았습니다. 푸시 알림을 초기화할 수 없습니다.");
+        setIsRegistering(false);
+        return;
+      }
+
       if ('serviceWorker' in navigator && 'PushManager' in window) {
         try {
           const swRegistration = await navigator.serviceWorker.ready;
