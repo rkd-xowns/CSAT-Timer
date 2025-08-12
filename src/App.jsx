@@ -208,6 +208,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { EventProvider, useEvent } from './context/EventContext.jsx';
 import FireworksEvent from './components/FireworksEvent.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
 // 페이지 및 컴포넌트 import
 import MainPage from './pages/MainPage.jsx';
@@ -356,12 +357,13 @@ function App() {
   );
 }
 
-function AppWrapper() {
-  return (
-    <EventProvider>
-      <App />
-    </EventProvider>
-  );
-}
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <AppWrapper />
+    </BrowserRouter>
+  </React.StrictMode>,
+)
+
 
 export default AppWrapper;

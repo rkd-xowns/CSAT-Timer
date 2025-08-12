@@ -1,26 +1,20 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App.jsx'
-import { ThemeProvider } from './context/ThemeContext.jsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 
+// 1. App.jsx에서 AppWrapper를 기본(default)으로 가져옵니다.
+import AppWrapper from './App.jsx'; 
+// 2. 기존에 사용하시던 ThemeProvider도 가져옵니다.
+import { ThemeProvider } from './context/ThemeContext.jsx';
+import './index.css';
+
+// 3. AppWrapper를 ThemeProvider와 BrowserRouter로 감싸줍니다.
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-        <App />
+        <AppWrapper />
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
-)
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').then(function(registration) {
-      console.log('Service Worker가 성공적으로 등록되었습니다. 범위: ', registration.scope);
-    }, function(err) {
-      console.log('Service Worker 등록에 실패했습니다: ', err);
-    });
-  });
-}
+);
