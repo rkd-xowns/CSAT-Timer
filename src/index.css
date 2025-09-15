@@ -574,7 +574,7 @@ html[data-theme='dark'] .welcome-page-container {
 .left-controls h2 { margin: 0; font-size: 1.2rem; color: var(--color-text-secondary); }
 .right-controls .neumorphic-button { padding: 0.6em 1.2em; font-size: 15px; white-space: nowrap; width: auto; min-height: 30px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
 
-.ui-toggle-button { position: fixed; top: 1rem; left: 1rem; z-index: 20; }
+.ui-toggle-button { position: fixed; top: 1rem; left: 1rem; z-index: 20; background: var(--btn-neumorphic-bg); }
 
 /* --- SimulationLoader.jsx --- */
 .loader-page-container { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; }
@@ -652,7 +652,7 @@ html[data-theme='dark'] .welcome-page-container {
 .time-sync-button:hover { background: rgba(0,0,0,0.1); }
 
 /* --- MuteButton.jsx --- */
-.mute-toggle { width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; }
+.mute-toggle { width: auto; min-height: 30px; display: flex; justify-content: center; align-items: center; background: var(--btn-neumorphic-bg);}
 .mute-toggle svg { fill: var(--color-text-secondary); }
 .icon-animation { animation: keyframes-fill .5s; }
 @keyframes keyframes-fill { 0% { transform: rotate(0deg) scale(0); opacity: 0; } 50% { transform: rotate(-10deg) scale(1.2); } 100% { transform: rotate(0deg) scale(1); opacity: 1; } }
